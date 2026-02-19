@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 223789296}
   - component: {fileID: 223789295}
   - component: {fileID: 223789299}
+  - component: {fileID: 223789300}
   m_Layer: 0
   m_Name: player2
   m_TagString: Untagged
@@ -259,6 +260,52 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &223789300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 223789294}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: a3bac364bc80a5841857665d8b640aca, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cfe9ec20-bfd5-4d9e-9309-8b52cc51e648
+    m_ActionName: 'Player1/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/DualShock4GamepadHID/dpad/up,/XInputControllerWindows/dpad/up,/XInputControllerWindows1/dpad/up,/DualShock4GamepadHID/dpad/down,/XInputControllerWindows/dpad/down,/XInputControllerWindows1/dpad/down,/DualShock4GamepadHID/dpad/left,/XInputControllerWindows/dpad/left,/XInputControllerWindows1/dpad/left,/DualShock4GamepadHID/dpad/right,/XInputControllerWindows/dpad/right,/XInputControllerWindows1/dpad/right]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 65badcd3-73c2-4a47-af50-df0ed5b13fb0
+    m_ActionName: 'Player1/Jump[/Keyboard/space,/DualShock4GamepadHID/buttonSouth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 890159d2-444b-48a8-93c9-e5c7a43edeca
+    m_ActionName: 'Player2/Movement02[/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow,/DualShock4GamepadHID/dpad/up,/XInputControllerWindows/dpad/up,/XInputControllerWindows1/dpad/up,/DualShock4GamepadHID/dpad/down,/XInputControllerWindows/dpad/down,/XInputControllerWindows1/dpad/down,/DualShock4GamepadHID/dpad/left,/XInputControllerWindows/dpad/left,/XInputControllerWindows1/dpad/left,/DualShock4GamepadHID/dpad/right,/XInputControllerWindows/dpad/right,/XInputControllerWindows1/dpad/right]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 34ca4dd5-48c3-42dc-884a-755011ebd2ff
+    m_ActionName: 'Player2/Jump02[/Keyboard/enter,/DualShock4GamepadHID/buttonSouth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth]'
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player2
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -694,7 +741,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1459334981}
-  - component: {fileID: 1459334980}
+  - component: {fileID: 1459334982}
   m_Layer: 0
   m_Name: playerManager
   m_TagString: Untagged
@@ -702,23 +749,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1459334980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1459334979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bb3f27f1abccec4d94d733fc73bf99c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::twoPlayersOneKeyboard
-  p1Move: {fileID: -4197209695530211474, guid: a3bac364bc80a5841857665d8b640aca, type: 3}
-  p2Move: {fileID: 875751356903325123, guid: a3bac364bc80a5841857665d8b640aca, type: 3}
-  p1: {fileID: 2119337219}
-  p2: {fileID: 223789298}
-  speed: 5
 --- !u!4 &1459334981
 Transform:
   m_ObjectHideFlags: 0
@@ -734,6 +764,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1459334982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459334979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInputManager
+  m_NotificationBehavior: 2
+  m_MaxPlayerCount: -1
+  m_AllowJoining: 1
+  m_JoinBehavior: 0
+  m_PlayerJoinedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_PlayerLeftEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_JoinAction:
+    m_UseReference: 0
+    m_Action:
+      m_Name: 
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 0617cf5c-5ce9-4426-9e03-4577c7c8fd9f
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: 0}
+  m_PlayerPrefab: {fileID: 0}
+  m_SplitScreen: 0
+  m_MaintainAspectRatioInSplitScreen: 0
+  m_FixedNumberOfSplitScreens: -1
+  m_SplitScreenRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!1 &2119337215
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,6 +821,7 @@ GameObject:
   - component: {fileID: 2119337217}
   - component: {fileID: 2119337216}
   - component: {fileID: 2119337220}
+  - component: {fileID: 2119337221}
   m_Layer: 0
   m_Name: player1
   m_TagString: Untagged
@@ -874,6 +949,36 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2119337221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119337215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: a3bac364bc80a5841857665d8b640aca, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player1
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
