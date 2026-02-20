@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 794628222315565039}
   - component: {fileID: 4339906010648011045}
   - component: {fileID: 7513158888651620643}
+  - component: {fileID: 449295003540747231}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -223,15 +224,51 @@ MonoBehaviour:
     m_ActionId: 701030bd-8b5e-4870-b12e-361edc2ace17
     m_ActionName: 'Player/Sprint[/DualShock4GamepadHID/leftStickPress,/XInputControllerWindows/leftStickPress]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 449295003540747231}
+        m_TargetAssemblyTypeName: PlayerInteraction, Assembly-CSharp
+        m_MethodName: OnInteract
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 6ce08849-1fbe-4c24-ac07-f3d19c351960
     m_ActionName: 'Player/Interact[/DualShock4GamepadHID/buttonWest,/XInputControllerWindows/buttonWest]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 449295003540747231}
+        m_TargetAssemblyTypeName: PlayerInteraction, Assembly-CSharp
+        m_MethodName: OnAim
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 2d8e6c51-15f1-4800-9ba6-754af609dadf
     m_ActionName: 'Player/Aim[/DualShock4GamepadHID/leftShoulder,/XInputControllerWindows/leftShoulder]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 449295003540747231}
+        m_TargetAssemblyTypeName: PlayerInteraction, Assembly-CSharp
+        m_MethodName: OnThrow
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: ab904286-b274-4d01-b190-6070c7d079ac
     m_ActionName: 'Player/Throw[/DualShock4GamepadHID/rightShoulder,/XInputControllerWindows/rightShoulder]'
   m_NeverAutoSwitchControlSchemes: 0
@@ -261,6 +298,21 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+--- !u!114 &449295003540747231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266068746157206333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 071fd11957c70514584c098ae1222ca0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
+  holdPoint: {fileID: 8934759687276466942}
+  pickupRange: 2
+  throwForce: 10
 --- !u!1 &360274343607100136
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +428,7 @@ Transform:
   m_GameObject: {fileID: 1855894472326051318}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.842}
+  m_LocalPosition: {x: 0, y: 0, z: 1.302}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
