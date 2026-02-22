@@ -85,6 +85,7 @@ public class PlayerController3D : MonoBehaviour
 
     void HandleJump()
     {
+        //if the player can jump, then shoot them in the air
         if (jumpQueued && IsGrounded())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 

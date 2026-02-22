@@ -16,6 +16,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext context)
     {
+        //if you aren't holding anything, will try to pick up what is in front of you (accesses HoldableObject)
         if (context.started)
         {
             if (held == null)
@@ -24,6 +25,7 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
+        //if you let go of the button, will drop the item (accesses Holdable Object)
         if (context.canceled)
         {
             if (held != null)
@@ -36,12 +38,14 @@ public class PlayerInteraction : MonoBehaviour
 
     public void OnAim(InputAction.CallbackContext context)
     {
+        //aiming mode turned on if you hold in button
         aiming = context.ReadValueAsButton();
         Debug.Log("Aim: " + aiming);
     }
 
     public void OnThrow(InputAction.CallbackContext context)
     {
+        //if you are holding the aiming button and then press the shoot button, it will throw the object (accesses HoldableObject)
         if (context.performed && held != null && aiming)
         {
             Debug.Log("Throw pressed");
@@ -54,6 +58,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void TryPickup()
     {
+        //looks for HoldableObject within a pickup range. if there is something there, will pick up the object (accesses HoldableObject)
         Collider[] hits = Physics.OverlapSphere(transform.position, pickupRange);
 
         foreach (var hit in hits)

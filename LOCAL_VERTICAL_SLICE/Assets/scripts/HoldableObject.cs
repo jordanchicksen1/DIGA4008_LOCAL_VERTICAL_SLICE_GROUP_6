@@ -15,6 +15,7 @@ public class HoldableObject : MonoBehaviour
 
     public void PickUp(Transform holdPoint)
     {
+        //picks up HoldableObject as long as the player is holding the pickup button in
         if (isHeld) return;
 
         isHeld = true;
@@ -34,6 +35,7 @@ public class HoldableObject : MonoBehaviour
 
     public void Drop()
     {
+        //drops HoldableObject if the player is no longer holding in the pickup button
         if (!isHeld) return;
 
         isHeld = false;
@@ -48,6 +50,7 @@ public class HoldableObject : MonoBehaviour
 
     public void Throw(Vector3 dir, float force)
     {
+        //let's go of HoldableObject and shoots it
         Drop();
         rb.AddForce(dir * force, ForceMode.Impulse);
     }
