@@ -99,4 +99,17 @@ public class PlayerController3D : MonoBehaviour
     {
         return Physics.CheckSphere(groundCheck.position, groundRadius, groundLayer);
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        //breakable wall - if you are moving fast enough, fetch and activate the break method
+        if (currentSpeed < sprintSpeed * 0.9f) return;
+
+        BreakableWall wall = collision.gameObject.GetComponent<BreakableWall>();
+
+        if (wall != null)
+        {
+            wall.Break();
+        }
+    }
 }

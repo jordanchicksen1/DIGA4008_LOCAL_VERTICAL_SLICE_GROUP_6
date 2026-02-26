@@ -11,7 +11,8 @@ public class PlayerInteraction : MonoBehaviour
     bool interactHeld;
     bool aiming;
 
-    
+    public float magnetSpeed = 10f;
+    HoldableObject pullingObject;
 
 
     public void OnInteract(InputAction.CallbackContext context)
@@ -58,7 +59,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void TryPickup()
     {
-        //looks for HoldableObject within a pickup range. if there is something there, will pick up the object (accesses HoldableObject)
+        //
         Collider[] hits = Physics.OverlapSphere(transform.position, pickupRange);
 
         foreach (var hit in hits)
@@ -66,9 +67,25 @@ public class PlayerInteraction : MonoBehaviour
             HoldableObject obj = hit.GetComponent<HoldableObject>();
             if (obj != null && !obj.isHeld)
             {
-                held = obj;
-                obj.PickUp(holdPoint);
+                pullingObject = obj;
                 break;
+            }
+        }
+    }
+
+    void Update()
+    {
+        if (pullingObject != null)
+        {
+            pullingObject.MoveTowards(holdPoint, magnetSpeed);
+
+            float distance = Vector3.Distance(pullingObject.transform.position, holdPoint.position);
+
+            if (distance < 0.2f)
+            {
+                held = pullingObject;
+                held.PickUp(holdPoint);
+                pullingObject = null;
             }
         }
     }
