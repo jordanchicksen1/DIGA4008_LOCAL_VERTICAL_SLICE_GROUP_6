@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInteraction : MonoBehaviour
@@ -14,7 +14,16 @@ public class PlayerInteraction : MonoBehaviour
     public float magnetSpeed = 10f;
     HoldableObject pullingObject;
 
+    TwoPlayerHoldable heavyHeld;
 
+    PlayerInput playerInput;
+    bool isPlayerOne;
+
+    void Awake()
+    {
+        playerInput = GetComponent<PlayerInput>();
+        isPlayerOne = playerInput.playerIndex == 0;
+    }
     public void OnInteract(InputAction.CallbackContext context)
     {
         //if you aren't holding anything, will try to pick up what is in front of you (accesses HoldableObject)
@@ -26,13 +35,19 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
-        //if you let go of the button, will drop the item (accesses Holdable Object)
+        //if you let go of the button, will drop the item (accesses Holdable Object or Two Player Holdable)
         if (context.canceled)
         {
             if (held != null)
             {
                 held.Drop();
                 held = null;
+            }
+
+            if (heavyHeld != null)
+            {
+                heavyHeld.RemoveHolder(this);
+                heavyHeld = null;
             }
         }
     }
@@ -59,27 +74,58 @@ public class PlayerInteraction : MonoBehaviour
 
     void TryPickup()
     {
-        //
         Collider[] hits = Physics.OverlapSphere(transform.position, pickupRange);
 
         foreach (var hit in hits)
         {
+            // 1️⃣ Heavy objects stay the same
+            TwoPlayerHoldable heavy = hit.GetComponent<TwoPlayerHoldable>();
+            if (heavy != null)
+            {
+                heavy.AddHolder(this);
+                heavyHeld = heavy;
+                return;
+            }
+
+            // 2️⃣ Normal holdable objects
             HoldableObject obj = hit.GetComponent<HoldableObject>();
             if (obj != null && !obj.isHeld)
             {
-                pullingObject = obj;
-                break;
+                if (isPlayerOne)
+                {
+                    // Player 1 pulls it
+                    pullingObject = obj;
+                }
+                else
+                {
+                    // Player 2 pushes it away
+                    Rigidbody rb = obj.GetComponent<Rigidbody>();
+
+                    Vector3 repelDirection =
+                        (obj.transform.position - transform.position).normalized;
+
+                    rb.AddForce(repelDirection * magnetSpeed, ForceMode.Impulse);
+                }
+
+                return;
             }
         }
     }
 
     void Update()
     {
-        if (pullingObject != null)
+        if (isPlayerOne && pullingObject != null)
         {
-            pullingObject.MoveTowards(holdPoint, magnetSpeed);
+            Vector3 direction =
+                (holdPoint.position - pullingObject.transform.position).normalized;
 
-            float distance = Vector3.Distance(pullingObject.transform.position, holdPoint.position);
+            pullingObject.transform.position +=
+                direction * magnetSpeed * Time.deltaTime;
+
+            float distance = Vector3.Distance(
+                pullingObject.transform.position,
+                holdPoint.position
+            );
 
             if (distance < 0.2f)
             {
@@ -88,5 +134,10 @@ public class PlayerInteraction : MonoBehaviour
                 pullingObject = null;
             }
         }
+    }
+
+    public bool IsHoldingHeavy()
+    {
+        return heavyHeld != null;
     }
 }
