@@ -24,22 +24,42 @@ public class TwoPlayerHoldable : MonoBehaviour
         if (IsFullyHeld)
         {
             rb.isKinematic = true;
-            col.enabled = false;
+
+            foreach (PlayerInteraction p in holders)
+            {
+                Rigidbody prb = p.GetComponent<Rigidbody>();
+                prb.isKinematic = true;
+
+                Collider playerCol = p.GetComponent<Collider>();
+                Physics.IgnoreCollision(playerCol, col, true);
+            }
         }
     }
 
     public void RemoveHolder(PlayerInteraction player)
     {
-        if (holders.Contains(player))
-            holders.Remove(player);
+        if (!holders.Contains(player))
+            return;
 
-        if (!IsFullyHeld)
+        // If this object was fully held before release
+        if (IsFullyHeld)
         {
+            // Restore physics for both players
+            foreach (PlayerInteraction p in holders)
+            {
+                Rigidbody prb = p.GetComponent<Rigidbody>();
+                prb.isKinematic = false;
+
+                Collider playerCol = p.GetComponent<Collider>();
+                Physics.IgnoreCollision(playerCol, col, false);
+            }
+
+            rb.isKinematic = false;
             rb.linearVelocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
-            rb.isKinematic = false;
-            col.enabled = true;
         }
+
+        holders.Remove(player);
     }
 
     void Update()
@@ -58,23 +78,18 @@ public class TwoPlayerHoldable : MonoBehaviour
         if (dir1.magnitude < 0.1f || dir2.magnitude < 0.1f)
             return;
 
-        float alignment = Vector3.Dot(dir1, dir2);
+        float alignment = Vector3.Dot(dir1.normalized, dir2.normalized);
 
-        if (alignment > 0.4f)
+        if (alignment > 0.8f)
         {
-            Vector3 moveDir = (dir1 + dir2) / 2f;
-
-            rb.MovePosition(rb.position + moveDir.normalized * 4f * Time.deltaTime);
+            Vector3 moveDir = (dir1 + dir2).normalized;
+            transform.position += moveDir * 3f * Time.deltaTime;
         }
 
-        // LOCK players to box sides
         Vector3 leftOffset = -transform.right * 1.2f;
         Vector3 rightOffset = transform.right * 1.2f;
 
-        Rigidbody rb1 = p1.GetComponent<Rigidbody>();
-        Rigidbody rb2 = p2.GetComponent<Rigidbody>();
-
-        rb1.MovePosition(rb.position + leftOffset);
-        rb2.MovePosition(rb.position + rightOffset);
+        p1.transform.position = transform.position + leftOffset;
+        p2.transform.position = transform.position + rightOffset;
     }
 }

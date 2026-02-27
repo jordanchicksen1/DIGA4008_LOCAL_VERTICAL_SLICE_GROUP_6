@@ -19,6 +19,8 @@ public class PlayerInteraction : MonoBehaviour
     PlayerInput playerInput;
     bool isPlayerOne;
 
+    public bool IsCarryingHeavy => heavyHeld != null && heavyHeld.IsFullyHeld;
+
     void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
