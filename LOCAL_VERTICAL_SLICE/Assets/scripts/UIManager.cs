@@ -1,0 +1,32 @@
+using UnityEngine;
+using TMPro;
+
+public class UIManager : MonoBehaviour
+{
+    public static UIManager Instance;
+
+    public GameObject endPanel;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI ratingText;
+
+    void Awake()
+    {
+        Instance = this;
+    }
+
+    public void ShowEndScreen(int score)
+    {
+        endPanel.SetActive(true);
+        scoreText.text = "Score: " + score;
+
+        ratingText.text = GetRating(score);
+    }
+
+    string GetRating(int score)
+    {
+        if (score >= 200) return "AMAZING!";
+        if (score >= 150) return "GREAT!";
+        if (score >= 100) return "Good!";
+        return "Better luck next time!";
+    }
+}
