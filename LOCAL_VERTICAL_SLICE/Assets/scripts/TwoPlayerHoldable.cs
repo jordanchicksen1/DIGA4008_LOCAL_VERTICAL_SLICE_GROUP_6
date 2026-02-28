@@ -18,6 +18,11 @@ public class TwoPlayerHoldable : MonoBehaviour
 
     public void AddHolder(PlayerInteraction player)
     {
+        if (holders.Count >= 2)
+            return;
+
+        
+
         if (!holders.Contains(player))
             holders.Add(player);
 
@@ -30,8 +35,7 @@ public class TwoPlayerHoldable : MonoBehaviour
                 Rigidbody prb = p.GetComponent<Rigidbody>();
                 prb.isKinematic = true;
 
-                Collider playerCol = p.GetComponent<Collider>();
-                Physics.IgnoreCollision(playerCol, col, true);
+                
             }
         }
     }
@@ -41,30 +45,36 @@ public class TwoPlayerHoldable : MonoBehaviour
         if (!holders.Contains(player))
             return;
 
-        // If this object was fully held before release
-        if (IsFullyHeld)
+        holders.Remove(player);
+
+        // Restore releasing player's physics
+        Rigidbody releasingRb = player.GetComponent<Rigidbody>();
+        releasingRb.isKinematic = false;
+        releasingRb.linearVelocity = Vector3.zero;
+        releasingRb.angularVelocity = Vector3.zero;
+
+        player.ClearHeavyReference();
+
+        if (holders.Count < 2)
         {
-            // Restore physics for both players
+            // Restore box physics
+            rb.isKinematic = false;
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+
+            // Restore remaining player (if any)
             foreach (PlayerInteraction p in holders)
             {
                 Rigidbody prb = p.GetComponent<Rigidbody>();
                 prb.isKinematic = false;
-
-                Collider playerCol = p.GetComponent<Collider>();
-                Physics.IgnoreCollision(playerCol, col, false);
             }
-
-            rb.isKinematic = false;
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
         }
-
-        holders.Remove(player);
     }
 
     void Update()
     {
-        if (!IsFullyHeld) return;
+        if (!IsFullyHeld)
+            return;
 
         PlayerInteraction p1 = holders[0];
         PlayerInteraction p2 = holders[1];
@@ -72,24 +82,37 @@ public class TwoPlayerHoldable : MonoBehaviour
         PlayerController3D c1 = p1.GetComponent<PlayerController3D>();
         PlayerController3D c2 = p2.GetComponent<PlayerController3D>();
 
-        Vector3 dir1 = c1.CurrentMoveDirection;
-        Vector3 dir2 = c2.CurrentMoveDirection;
+        //player 1 controls forward + back
+        Vector2 moveInput = c1.RawMoveInput;
+        float moveAmount = moveInput.y; 
 
-        if (dir1.magnitude < 0.1f || dir2.magnitude < 0.1f)
-            return;
+        transform.position += transform.forward * moveAmount * 4f * Time.deltaTime;
 
-        float alignment = Vector3.Dot(dir1.normalized, dir2.normalized);
+        //player 2 controls turning
+        float rotationAmount = c2.RawMoveInput.x * 220f * Time.deltaTime;
+        transform.Rotate(Vector3.up, rotationAmount);
 
-        if (alignment > 0.8f)
-        {
-            Vector3 moveDir = (dir1 + dir2).normalized;
-            transform.position += moveDir * 3f * Time.deltaTime;
-        }
+        //match box height to players
+        float averageY = (p1.transform.position.y + p2.transform.position.y) / 2f;
 
+        Vector3 boxPos = transform.position;
+        boxPos.y = averageY;
+        transform.position = boxPos;
+
+        //lock players to sides (preserve their Y)
         Vector3 leftOffset = -transform.right * 1.2f;
         Vector3 rightOffset = transform.right * 1.2f;
 
-        p1.transform.position = transform.position + leftOffset;
-        p2.transform.position = transform.position + rightOffset;
+        Vector3 p1Pos = transform.position + leftOffset;
+        Vector3 p2Pos = transform.position + rightOffset;
+
+        p1Pos.y = p1.transform.position.y;
+        p2Pos.y = p2.transform.position.y;
+
+        p1.transform.position = p1Pos;
+        p2.transform.position = p2Pos;
+
+        p1.transform.rotation = transform.rotation;
+        p2.transform.rotation = transform.rotation;
     }
 }

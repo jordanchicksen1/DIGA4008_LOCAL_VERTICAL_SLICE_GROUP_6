@@ -9,6 +9,7 @@ public class PlayerController3D : MonoBehaviour
     public float sprintSpeed = 10f;
     public float acceleration = 12f;
     public float rotationSpeed = 15f;
+    public Vector2 RawMoveInput => moveInput;
     public Vector3 CurrentMoveDirection { get; private set; }
 
     [Header("Jump")]
@@ -34,10 +35,13 @@ public class PlayerController3D : MonoBehaviour
 
     //in fixed update for better physics
     void FixedUpdate()
-    {
-        HandleMovement();
-        HandleJump();
-    }
+{
+    if (IsCarryingHeavy())
+        return;
+
+    HandleMovement();
+    HandleJump();
+}
 
     
     //need to assign these in the player input
@@ -115,7 +119,7 @@ public class PlayerController3D : MonoBehaviour
         }
     }
 
-    bool IsCarryingHeavy()
+    public bool IsCarryingHeavy()
     {
         PlayerInteraction interaction = GetComponent<PlayerInteraction>();
         return interaction != null && interaction.IsHoldingHeavy();

@@ -19,6 +19,7 @@ public class PlayerInteraction : MonoBehaviour
     PlayerInput playerInput;
     bool isPlayerOne;
 
+    
     public bool IsCarryingHeavy => heavyHeld != null && heavyHeld.IsFullyHeld;
 
     void Awake()
@@ -46,11 +47,16 @@ public class PlayerInteraction : MonoBehaviour
                 held = null;
             }
 
+
+
             if (heavyHeld != null)
             {
                 heavyHeld.RemoveHolder(this);
+
+                // Clear local reference
                 heavyHeld = null;
             }
+
         }
     }
 
@@ -138,8 +144,16 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
+    
+
+    public void ClearHeavyReference()
+    {
+        heavyHeld = null;
+    }
+
     public bool IsHoldingHeavy()
     {
-        return heavyHeld != null;
+        return heavyHeld != null && heavyHeld.holders.Contains(this);
     }
+
 }
