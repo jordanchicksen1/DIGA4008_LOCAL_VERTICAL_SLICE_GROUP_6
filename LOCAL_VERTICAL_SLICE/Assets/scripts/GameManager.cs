@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
         if (gameEnded) return;
 
         currentTime -= Time.deltaTime;
-        timeText.text = currentTime.ToString();
+        timeText.text = Mathf.CeilToInt(currentTime).ToString();
         if (currentTime <= 0)
         {
             EndGame();

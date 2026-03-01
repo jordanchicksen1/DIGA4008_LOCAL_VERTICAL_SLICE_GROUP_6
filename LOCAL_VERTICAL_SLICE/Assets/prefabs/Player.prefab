@@ -330,8 +330,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerLight
   pointLight: {fileID: 6042693271777233945}
-  maxLight: 5
-  drainRate: 0.5
+  maxLight: 10
+  drainRate: 0.2
 --- !u!1 &360274343607100136
 GameObject:
   m_ObjectHideFlags: 0
