@@ -8,14 +8,28 @@ public class PlayerLight : MonoBehaviour
 
     float currentLight;
 
+    PlayerInteraction interaction;
+
     void Start()
     {
         currentLight = maxLight;
+        interaction = GetComponent<PlayerInteraction>();
     }
 
     void Update()
     {
-        currentLight -= drainRate * Time.deltaTime;
+        float drainMultiplier = 1f;
+
+        if (interaction != null)
+        {
+            // If holding normal object OR heavy object
+            if (interaction.IsHoldingHeavy() || interaction.HasNormalObject())
+            {
+                drainMultiplier = 2f;
+            }
+        }
+
+        currentLight -= drainRate * drainMultiplier * Time.deltaTime;
         currentLight = Mathf.Clamp(currentLight, 0, maxLight);
 
         pointLight.intensity = currentLight;

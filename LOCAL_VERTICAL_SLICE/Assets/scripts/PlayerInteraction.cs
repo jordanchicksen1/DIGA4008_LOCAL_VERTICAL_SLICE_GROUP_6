@@ -17,7 +17,7 @@ public class PlayerInteraction : MonoBehaviour
     TwoPlayerHoldable heavyHeld;
 
     PlayerInput playerInput;
-    bool isPlayerOne;
+  
 
     
     public bool IsCarryingHeavy => heavyHeld != null && heavyHeld.IsFullyHeld;
@@ -25,7 +25,7 @@ public class PlayerInteraction : MonoBehaviour
     void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
-        isPlayerOne = playerInput.playerIndex == 0;
+        
     }
     public void OnInteract(InputAction.CallbackContext context)
     {
@@ -86,7 +86,7 @@ public class PlayerInteraction : MonoBehaviour
 
         foreach (var hit in hits)
         {
-            // 1️⃣ Heavy objects stay the same
+            // Heavy objects stay the same
             TwoPlayerHoldable heavy = hit.GetComponent<TwoPlayerHoldable>();
             if (heavy != null)
             {
@@ -95,34 +95,20 @@ public class PlayerInteraction : MonoBehaviour
                 return;
             }
 
-            // 2️⃣ Normal holdable objects
+            // Normal holdable objects
             HoldableObject obj = hit.GetComponent<HoldableObject>();
             if (obj != null && !obj.isHeld)
             {
-                if (isPlayerOne)
-                {
-                    // Player 1 pulls it
+              
                     pullingObject = obj;
-                }
-                else
-                {
-                    // Player 2 pushes it away
-                    Rigidbody rb = obj.GetComponent<Rigidbody>();
-
-                    Vector3 repelDirection =
-                        (obj.transform.position - transform.position).normalized;
-
-                    rb.AddForce(repelDirection * magnetSpeed, ForceMode.Impulse);
-                }
-
-                return;
+                    return;
             }
         }
     }
 
     void Update()
     {
-        if (isPlayerOne && pullingObject != null)
+        if (pullingObject != null)
         {
             Vector3 direction =
                 (holdPoint.position - pullingObject.transform.position).normalized;
@@ -156,4 +142,8 @@ public class PlayerInteraction : MonoBehaviour
         return heavyHeld != null && heavyHeld.holders.Contains(this);
     }
 
+    public bool HasNormalObject()
+    {
+        return held != null;
+    }
 }
