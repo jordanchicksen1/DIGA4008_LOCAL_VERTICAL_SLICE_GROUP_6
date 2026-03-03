@@ -7,6 +7,7 @@ using UnityEngine.InputSystem.XInput;
 
 public class PlayerInteraction : MonoBehaviour
 {
+    public MusicManager MusicManager;
     public Transform holdPoint;
     public float pickupRange = 2f;
     public float throwForce = 10f;
@@ -34,6 +35,7 @@ public class PlayerInteraction : MonoBehaviour
     void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
+        //MusicManager = GetComponent<MusicManager>();
         
     }
     public void OnInteract(InputAction.CallbackContext context)
@@ -139,6 +141,7 @@ public class PlayerInteraction : MonoBehaviour
                 heavy.AddHolder(this);
                 heavyHeld = heavy;
                 //Holding = true;
+                
                 return;
             }
 
@@ -148,7 +151,9 @@ public class PlayerInteraction : MonoBehaviour
             {
               
                     pullingObject = obj;
-                    //Holding = true ;
+                //Holding = true ;
+                //MusicManager.SFX.PlayOneShot(MusicManager.Electricity);
+                //MusicManager.GetComponent<MusicManager>().SFX.PlayOneShot(MusicManager.Electricity);
                     return;
 
             }
