@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Haptics;
+using UnityEngine.InputSystem.DualShock;
+using UnityEngine.InputSystem.XInput;
 
 public class PlayerInteraction : MonoBehaviour
 {
     public Transform holdPoint;
     public float pickupRange = 2f;
     public float throwForce = 10f;
+    public bool Holding;
 
     HoldableObject held;
     bool interactHeld;
@@ -17,7 +21,9 @@ public class PlayerInteraction : MonoBehaviour
     TwoPlayerHoldable heavyHeld;
 
     PlayerInput playerInput;
-  
+
+    private Gamepad Gamepad;
+
 
     
     public bool IsCarryingHeavy => heavyHeld != null && heavyHeld.IsFullyHeld;
@@ -35,6 +41,39 @@ public class PlayerInteraction : MonoBehaviour
             if (held == null)
             {
                 TryPickup();
+                Debug.Log("Pickup");
+
+                var device = context.control.device;
+                
+                if(device is Gamepad gamepad) 
+                {
+                    Gamepad = gamepad;  
+
+                    if(Holding) 
+                    {
+                        if (gamepad is DualShockGamepad)
+                        {
+                            Debug.Log(gamepad.displayName);
+                            gamepad.SetMotorSpeeds(0.3f, 0.5f);
+                        }
+
+                        if (gamepad is DualSenseGamepad)
+                        {
+                            Debug.Log(gamepad.displayName);
+                            gamepad.SetMotorSpeeds(0.4f, 0.7f);
+                        }
+
+                        if (gamepad is XInputController)
+                        {
+                            Debug.Log(gamepad.displayName);
+                            gamepad.SetMotorSpeeds(0.3f, 0.7f);
+                        }
+                    }
+
+
+                }
+
+              
             }
         }
 
@@ -45,6 +84,9 @@ public class PlayerInteraction : MonoBehaviour
             {
                 held.Drop();
                 held = null;
+                Debug.Log("Drop");
+                Holding = false;
+                Gamepad.SetMotorSpeeds(0.0f, 0.0f);
             }
 
 
@@ -92,6 +134,7 @@ public class PlayerInteraction : MonoBehaviour
             {
                 heavy.AddHolder(this);
                 heavyHeld = heavy;
+                Holding = true;
                 return;
             }
 
@@ -101,7 +144,9 @@ public class PlayerInteraction : MonoBehaviour
             {
               
                     pullingObject = obj;
+                    Holding = true ;
                     return;
+
             }
         }
     }
