@@ -23,6 +23,7 @@ public class PlayerInteraction : MonoBehaviour
     PlayerInput playerInput;
 
     private Gamepad Gamepad;
+    public bool Rumble;
     public float timz;
 
 
@@ -44,20 +45,18 @@ public class PlayerInteraction : MonoBehaviour
                 TryPickup();
                 Debug.Log("Pickup");
 
-               /* var device = context.control.device;
+
+                var device = context.control.device;
                 
                 if(device is Gamepad gamepad) 
                 {
                     Gamepad = gamepad;  
 
-                    if(Holding) 
-                    {
-                        
-
                         if (gamepad is DualShockGamepad)
                         {
                             Debug.Log(gamepad.displayName);
                             gamepad.SetMotorSpeeds(0.5f, 0.5f);
+                            
                         }
 
                         if (gamepad is DualSenseGamepad)
@@ -71,10 +70,7 @@ public class PlayerInteraction : MonoBehaviour
                             Debug.Log(gamepad.displayName);
                             gamepad.SetMotorSpeeds(0.3f, 0.7f);
                         }
-                    }
-
-
-                }*/
+                }
 
               
             }
@@ -88,8 +84,9 @@ public class PlayerInteraction : MonoBehaviour
                 held.Drop();
                 held = null;
                 Debug.Log("Drop");
-                Holding = false;
+                //Holding = false;
                 Gamepad.SetMotorSpeeds(0.0f, 0.0f);
+                Rumble = false;
                 //timz = 0;
             }
 
@@ -138,7 +135,7 @@ public class PlayerInteraction : MonoBehaviour
             {
                 heavy.AddHolder(this);
                 heavyHeld = heavy;
-                Holding = true;
+                //Holding = true;
                 return;
             }
 
@@ -148,7 +145,7 @@ public class PlayerInteraction : MonoBehaviour
             {
               
                     pullingObject = obj;
-                    Holding = true ;
+                    //Holding = true ;
                     return;
 
             }
@@ -157,6 +154,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void Update()
     {
+        
         if (pullingObject != null)
         {
             Vector3 direction =
@@ -177,7 +175,7 @@ public class PlayerInteraction : MonoBehaviour
                 pullingObject = null;
             }
 
-            Gamepad = Gamepad.current;
+            /*Gamepad = Gamepad.current;
 
             if (Gamepad is Gamepad gamepad)
             {
@@ -190,7 +188,13 @@ public class PlayerInteraction : MonoBehaviour
                     if (gamepad is DualShockGamepad)
                     {
                         Debug.Log(gamepad.displayName);
-                        gamepad.SetMotorSpeeds(0.7f, 0.9f);
+                        gamepad.SetMotorSpeeds(0.7f, 0.7f);
+                        timz += 1 * Time.deltaTime;
+
+                        if(timz > 1.5f) 
+                        {
+                            gamepad.SetMotorSpeeds(0.0f,0.0f);
+                        }
                     }
 
                     if (gamepad is DualSenseGamepad)
@@ -207,13 +211,7 @@ public class PlayerInteraction : MonoBehaviour
                 }
 
 
-            }
-            
-
-
-
-
-
+            }*/
         }
 
         
@@ -235,4 +233,6 @@ public class PlayerInteraction : MonoBehaviour
     {
         return held != null;
     }
+
+    
 }
