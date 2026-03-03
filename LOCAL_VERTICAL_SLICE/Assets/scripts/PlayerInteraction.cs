@@ -64,12 +64,14 @@ public class PlayerInteraction : MonoBehaviour
                         {
                             Debug.Log(gamepad.displayName);
                             //gamepad.SetMotorSpeeds(0.4f, 0.7f);
+                            StartCoroutine(DualSenseRumble());
                         }
 
                         if (gamepad is XInputController)
                         {
                             Debug.Log(gamepad.displayName);
                             //gamepad.SetMotorSpeeds(0.3f, 0.7f);
+                            StartCoroutine(XboxRumble());
                         }
                 }
 
