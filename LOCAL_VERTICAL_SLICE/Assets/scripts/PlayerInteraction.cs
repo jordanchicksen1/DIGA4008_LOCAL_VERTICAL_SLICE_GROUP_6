@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Haptics;
+//using UnityEngine.InputSystem.Haptics;
 using UnityEngine.InputSystem.DualShock;
 using UnityEngine.InputSystem.XInput;
 
@@ -23,6 +23,7 @@ public class PlayerInteraction : MonoBehaviour
     PlayerInput playerInput;
 
     private Gamepad Gamepad;
+    public float timz;
 
 
     
@@ -43,7 +44,7 @@ public class PlayerInteraction : MonoBehaviour
                 TryPickup();
                 Debug.Log("Pickup");
 
-                var device = context.control.device;
+               /* var device = context.control.device;
                 
                 if(device is Gamepad gamepad) 
                 {
@@ -51,10 +52,12 @@ public class PlayerInteraction : MonoBehaviour
 
                     if(Holding) 
                     {
+                        
+
                         if (gamepad is DualShockGamepad)
                         {
                             Debug.Log(gamepad.displayName);
-                            gamepad.SetMotorSpeeds(0.3f, 0.5f);
+                            gamepad.SetMotorSpeeds(0.5f, 0.5f);
                         }
 
                         if (gamepad is DualSenseGamepad)
@@ -71,7 +74,7 @@ public class PlayerInteraction : MonoBehaviour
                     }
 
 
-                }
+                }*/
 
               
             }
@@ -87,6 +90,7 @@ public class PlayerInteraction : MonoBehaviour
                 Debug.Log("Drop");
                 Holding = false;
                 Gamepad.SetMotorSpeeds(0.0f, 0.0f);
+                //timz = 0;
             }
 
 
@@ -172,7 +176,47 @@ public class PlayerInteraction : MonoBehaviour
                 held.PickUp(holdPoint);
                 pullingObject = null;
             }
+
+            Gamepad = Gamepad.current;
+
+            if (Gamepad is Gamepad gamepad)
+            {
+                Gamepad = gamepad;
+
+                if (Holding)
+                {
+
+
+                    if (gamepad is DualShockGamepad)
+                    {
+                        Debug.Log(gamepad.displayName);
+                        gamepad.SetMotorSpeeds(0.7f, 0.9f);
+                    }
+
+                    if (gamepad is DualSenseGamepad)
+                    {
+                        Debug.Log(gamepad.displayName);
+                        gamepad.SetMotorSpeeds(0.4f, 0.7f);
+                    }
+
+                    if (gamepad is XInputController)
+                    {
+                        Debug.Log(gamepad.displayName);
+                        gamepad.SetMotorSpeeds(0.3f, 0.7f);
+                    }
+                }
+
+
+            }
+            
+
+
+
+
+
         }
+
+        
     }
 
     
