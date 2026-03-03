@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInteraction : MonoBehaviour
@@ -11,9 +11,22 @@ public class PlayerInteraction : MonoBehaviour
     bool interactHeld;
     bool aiming;
 
+    public float magnetSpeed = 10f;
+    HoldableObject pullingObject;
+
+    TwoPlayerHoldable heavyHeld;
+
+    PlayerInput playerInput;
+  
+
     
+    public bool IsCarryingHeavy => heavyHeld != null && heavyHeld.IsFullyHeld;
 
-
+    void Awake()
+    {
+        playerInput = GetComponent<PlayerInput>();
+        
+    }
     public void OnInteract(InputAction.CallbackContext context)
     {
         //if you aren't holding anything, will try to pick up what is in front of you (accesses HoldableObject)
@@ -25,7 +38,7 @@ public class PlayerInteraction : MonoBehaviour
             }
         }
 
-        //if you let go of the button, will drop the item (accesses Holdable Object)
+        //if you let go of the button, will drop the item (accesses Holdable Object or Two Player Holdable)
         if (context.canceled)
         {
             if (held != null)
@@ -33,6 +46,17 @@ public class PlayerInteraction : MonoBehaviour
                 held.Drop();
                 held = null;
             }
+
+
+
+            if (heavyHeld != null)
+            {
+                heavyHeld.RemoveHolder(this);
+
+                // Clear local reference
+                heavyHeld = null;
+            }
+
         }
     }
 
@@ -58,18 +82,68 @@ public class PlayerInteraction : MonoBehaviour
 
     void TryPickup()
     {
-        //looks for HoldableObject within a pickup range. if there is something there, will pick up the object (accesses HoldableObject)
         Collider[] hits = Physics.OverlapSphere(transform.position, pickupRange);
 
         foreach (var hit in hits)
         {
+            // Heavy objects stay the same
+            TwoPlayerHoldable heavy = hit.GetComponent<TwoPlayerHoldable>();
+            if (heavy != null)
+            {
+                heavy.AddHolder(this);
+                heavyHeld = heavy;
+                return;
+            }
+
+            // Normal holdable objects
             HoldableObject obj = hit.GetComponent<HoldableObject>();
             if (obj != null && !obj.isHeld)
             {
-                held = obj;
-                obj.PickUp(holdPoint);
-                break;
+              
+                    pullingObject = obj;
+                    return;
             }
         }
+    }
+
+    void Update()
+    {
+        if (pullingObject != null)
+        {
+            Vector3 direction =
+                (holdPoint.position - pullingObject.transform.position).normalized;
+
+            pullingObject.transform.position +=
+                direction * magnetSpeed * Time.deltaTime;
+
+            float distance = Vector3.Distance(
+                pullingObject.transform.position,
+                holdPoint.position
+            );
+
+            if (distance < 0.2f)
+            {
+                held = pullingObject;
+                held.PickUp(holdPoint);
+                pullingObject = null;
+            }
+        }
+    }
+
+    
+
+    public void ClearHeavyReference()
+    {
+        heavyHeld = null;
+    }
+
+    public bool IsHoldingHeavy()
+    {
+        return heavyHeld != null && heavyHeld.holders.Contains(this);
+    }
+
+    public bool HasNormalObject()
+    {
+        return held != null;
     }
 }

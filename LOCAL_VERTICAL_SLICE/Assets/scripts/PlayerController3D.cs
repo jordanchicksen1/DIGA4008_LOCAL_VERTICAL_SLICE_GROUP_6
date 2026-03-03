@@ -9,6 +9,9 @@ public class PlayerController3D : MonoBehaviour
     public float sprintSpeed = 10f;
     public float acceleration = 12f;
     public float rotationSpeed = 15f;
+    PlayerLight playerLight;
+    public Vector2 RawMoveInput => moveInput;
+    public Vector3 CurrentMoveDirection { get; private set; }
 
     [Header("Jump")]
     public float jumpForce = 7f;
@@ -29,14 +32,18 @@ public class PlayerController3D : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         cam = Camera.main;
         currentSpeed = moveSpeed;
+        playerLight = GetComponent<PlayerLight>();
     }
 
     //in fixed update for better physics
     void FixedUpdate()
-    {
-        HandleMovement();
-        HandleJump();
-    }
+{
+    if (IsCarryingHeavy())
+        return;
+
+    HandleMovement();
+    HandleJump();
+}
 
     
     //need to assign these in the player input
@@ -69,9 +76,22 @@ public class PlayerController3D : MonoBehaviour
         right.y = 0;
 
         Vector3 direction = forward * moveInput.y + right * moveInput.x;
+        CurrentMoveDirection = direction.normalized;
 
         //configuring player speed with sprint
-        float targetSpeed = sprintHeld ? sprintSpeed : moveSpeed; 
+        float baseSpeed = sprintHeld ? sprintSpeed : moveSpeed;
+
+        float batteryPercent = 1f;
+
+        if (playerLight != null)
+        {
+            batteryPercent = playerLight.GetLightPercent();
+        }
+
+        // Speed scales from 10% ? 100%
+        float speedMultiplier = Mathf.Lerp(0.1f, 1f, batteryPercent);
+
+        float targetSpeed = baseSpeed * speedMultiplier;
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, acceleration * Time.fixedDeltaTime);
 
         if (direction.magnitude > 0.1f)
@@ -86,7 +106,7 @@ public class PlayerController3D : MonoBehaviour
     void HandleJump()
     {
         //if the player can jump, then shoot them in the air
-        if (jumpQueued && IsGrounded())
+        if (jumpQueued && IsGrounded() && !IsCarryingHeavy())
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 
         }
@@ -98,5 +118,24 @@ public class PlayerController3D : MonoBehaviour
     bool IsGrounded()
     {
         return Physics.CheckSphere(groundCheck.position, groundRadius, groundLayer);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        //breakable wall - if you are moving fast enough, fetch and activate the break method
+        if (currentSpeed < sprintSpeed * 0.9f) return;
+
+        BreakableWall wall = collision.gameObject.GetComponent<BreakableWall>();
+
+        if (wall != null)
+        {
+            wall.Break();
+        }
+    }
+
+    public bool IsCarryingHeavy()
+    {
+        PlayerInteraction interaction = GetComponent<PlayerInteraction>();
+        return interaction != null && interaction.IsHoldingHeavy();
     }
 }
