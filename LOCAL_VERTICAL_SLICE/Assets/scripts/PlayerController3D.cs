@@ -89,7 +89,7 @@ public class PlayerController3D : MonoBehaviour
         }
 
         // Speed scales from 10% ? 100%
-        float speedMultiplier = Mathf.Lerp(0.1f, 1f, batteryPercent);
+        float speedMultiplier = Mathf.Lerp(0.25f, 1f, batteryPercent);
 
         float targetSpeed = baseSpeed * speedMultiplier;
         currentSpeed = Mathf.Lerp(currentSpeed, targetSpeed, acceleration * Time.fixedDeltaTime);
@@ -123,7 +123,7 @@ public class PlayerController3D : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         //breakable wall - if you are moving fast enough, fetch and activate the break method
-        if (currentSpeed < sprintSpeed * 0.9f) return;
+        if (currentSpeed < sprintSpeed * 0.5f) return;
 
         BreakableWall wall = collision.gameObject.GetComponent<BreakableWall>();
 

@@ -566,6 +566,10 @@ PrefabInstance:
       value: twoPlayerBox
       objectReference: {fileID: 0}
     - target: {fileID: 5183458566787627116, guid: a979ad5c67455404f82d8eacb75aabee, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183458566787627116, guid: a979ad5c67455404f82d8eacb75aabee, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.11
       objectReference: {fileID: 0}
