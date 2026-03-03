@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.InputSystem;
 //using UnityEngine.InputSystem.Haptics;
 using UnityEngine.InputSystem.DualShock;
@@ -55,20 +56,20 @@ public class PlayerInteraction : MonoBehaviour
                         if (gamepad is DualShockGamepad)
                         {
                             Debug.Log(gamepad.displayName);
-                            gamepad.SetMotorSpeeds(0.5f, 0.5f);
-                            
+                            //gamepad.SetMotorSpeeds(0.5f, 0.5f);
+                            StartCoroutine(DualShockRumble());
                         }
 
                         if (gamepad is DualSenseGamepad)
                         {
                             Debug.Log(gamepad.displayName);
-                            gamepad.SetMotorSpeeds(0.4f, 0.7f);
+                            //gamepad.SetMotorSpeeds(0.4f, 0.7f);
                         }
 
                         if (gamepad is XInputController)
                         {
                             Debug.Log(gamepad.displayName);
-                            gamepad.SetMotorSpeeds(0.3f, 0.7f);
+                            //gamepad.SetMotorSpeeds(0.3f, 0.7f);
                         }
                 }
 
@@ -86,7 +87,7 @@ public class PlayerInteraction : MonoBehaviour
                 Debug.Log("Drop");
                 //Holding = false;
                 Gamepad.SetMotorSpeeds(0.0f, 0.0f);
-                Rumble = false;
+                //Rumble = false;
                 //timz = 0;
             }
 
@@ -196,5 +197,30 @@ public class PlayerInteraction : MonoBehaviour
         return held != null;
     }
 
-    
+   public IEnumerator DualShockRumble() 
+    {
+        Gamepad = Gamepad.current;
+        Debug.Log(Gamepad.displayName);
+        Gamepad.SetMotorSpeeds(0.5f, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        Gamepad.SetMotorSpeeds(0f, 0f);
+    }
+
+    public IEnumerator DualSenseRumble()
+    {
+        Gamepad = Gamepad.current;
+        Debug.Log(Gamepad.displayName);
+        Gamepad.SetMotorSpeeds(0.4f, 0.4f);
+        yield return new WaitForSeconds(0.5f);
+        Gamepad.SetMotorSpeeds(0f, 0f);
+    }
+
+    public IEnumerator XboxRumble()
+    {
+        Gamepad = Gamepad.current;
+        Debug.Log(Gamepad.displayName);
+        Gamepad.SetMotorSpeeds(0.6f, 0.6f);
+        yield return new WaitForSeconds(0.5f);
+        Gamepad.SetMotorSpeeds(0f, 0f);
+    }
 }
