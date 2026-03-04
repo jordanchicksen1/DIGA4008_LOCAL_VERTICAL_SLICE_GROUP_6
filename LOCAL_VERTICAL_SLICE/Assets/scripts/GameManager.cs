@@ -1,10 +1,13 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     private MusicManager musicManager;
+  
 
     [Header("UI Stuff")]
     public int score;
@@ -17,6 +20,9 @@ public class GameManager : MonoBehaviour
 
     [Header("Lights")]
     public Light DirectLight;
+    public bool darker;
+    public Volume volume;
+    Vignette vignette;
 
     [Header("Pitch work")]
     public bool raisePitch;
@@ -26,6 +32,10 @@ public class GameManager : MonoBehaviour
     {
         Instance = this;
         musicManager = FindAnyObjectByType<MusicManager>();
+        volume.profile.TryGet<Vignette>(out vignette);
+        vignette.intensity.overrideState = true;
+        vignette.color.overrideState = true;
+        darker = true;
     }
 
     void Start()
@@ -45,6 +55,11 @@ public class GameManager : MonoBehaviour
             EndGame();
         }
 
+        if(vignette.intensity.value > 0.4f) 
+        {
+            darker = false;
+        }
+
         BackgroundMusicPitch();
     }
 
@@ -54,6 +69,12 @@ public class GameManager : MonoBehaviour
         scoreText.text = Mathf.CeilToInt(score).ToString();
         musicManager.SFX.PlayOneShot(musicManager.Collect);
         DirectLight.intensity -= 0.2f;
+
+        if(DirectLight.intensity <= 0 && darker) 
+        {
+            Debug.Log("no lights");
+            vignette.intensity.value += 0.1f;
+        }
 
     }
 
