@@ -18,6 +18,10 @@ public class GameManager : MonoBehaviour
     [Header("Lights")]
     public Light DirectLight;
 
+    [Header("Pitch work")]
+    public bool raisePitch;
+    public float pitchIncrease;
+
     void Awake()
     {
         Instance = this;
@@ -40,6 +44,8 @@ public class GameManager : MonoBehaviour
         {
             EndGame();
         }
+
+        BackgroundMusicPitch();
     }
 
     public void AddScore(int amount)
@@ -61,9 +67,23 @@ public class GameManager : MonoBehaviour
 
     public void BackgroundMusicPitch() 
     {
-        if(currentTime > 1f) 
+        //Debug.Log(currentTime);
+        if (currentTime <= 35) 
         {
-            Debug.Log("three qutar");
+            //Debug.Log("pitch up");
+            raisePitch = true;
+
+        }
+
+        if(currentTime <= 34) 
+        {
+            raisePitch = false;
+        }
+
+
+        if (raisePitch) 
+        {
+            musicManager.BackgroundMusic.pitch += pitchIncrease * Time.deltaTime;
         }
     }
 }
