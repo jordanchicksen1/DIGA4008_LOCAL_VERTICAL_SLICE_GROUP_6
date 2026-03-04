@@ -9,4 +9,5 @@ public class MusicManager : MonoBehaviour
 
     [Header("SFX Clips")]
     public AudioClip Electricity;
+    public AudioClip Collect;
 }

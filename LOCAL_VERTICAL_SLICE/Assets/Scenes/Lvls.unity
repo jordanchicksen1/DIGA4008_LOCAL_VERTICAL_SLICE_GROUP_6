@@ -909,6 +909,7 @@ MonoBehaviour:
   BackgroundMusic: {fileID: 823104036}
   SFX: {fileID: 801003730}
   Electricity: {fileID: 8300000, guid: be77100e50fc28a4bb6b0bb8d41245fa, type: 3}
+  Collect: {fileID: 8300000, guid: 2756b4b7a4aac594a9264d3b17fb98a0, type: 3}
 --- !u!4 &315880025
 Transform:
   m_ObjectHideFlags: 0
@@ -1336,7 +1337,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.608
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1943,6 +1944,10 @@ PrefabInstance:
       propertyPath: matchTime
       value: 60
       objectReference: {fileID: 0}
+    - target: {fileID: 4384175662192393552, guid: 0f00d913bf551eb4da264228cf8674ee, type: 3}
+      propertyPath: DirectLight
+      value: 
+      objectReference: {fileID: 1165913124}
     - target: {fileID: 4551072391967070087, guid: 0f00d913bf551eb4da264228cf8674ee, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.33

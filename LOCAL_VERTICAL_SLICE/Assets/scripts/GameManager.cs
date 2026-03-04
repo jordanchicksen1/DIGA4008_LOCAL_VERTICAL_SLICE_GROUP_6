@@ -4,7 +4,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    private MusicManager musicManager;
 
+    [Header("UI Stuff")]
     public int score;
     public TextMeshProUGUI scoreText;
 
@@ -13,9 +15,13 @@ public class GameManager : MonoBehaviour
     float currentTime;
     public bool gameEnded;
 
+    [Header("Lights")]
+    public Light DirectLight;
+
     void Awake()
     {
         Instance = this;
+        musicManager = FindAnyObjectByType<MusicManager>();
     }
 
     void Start()
@@ -40,7 +46,8 @@ public class GameManager : MonoBehaviour
     {
         score += amount;
         scoreText.text = Mathf.CeilToInt(score).ToString();
-
+        musicManager.SFX.PlayOneShot(musicManager.Collect);
+        DirectLight.intensity -= 0.2f;
 
     }
 
@@ -50,5 +57,13 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
 
         UIManager.Instance.ShowEndScreen(score);
+    }
+
+    public void BackgroundMusicPitch() 
+    {
+        if(currentTime > 1f) 
+        {
+            Debug.Log("three qutar");
+        }
     }
 }
