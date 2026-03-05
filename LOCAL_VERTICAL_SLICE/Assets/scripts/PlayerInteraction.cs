@@ -188,6 +188,7 @@ public class PlayerInteraction : MonoBehaviour
 
 
                 Gamepad = Gamepad.current;
+                //var gamepad = Gamepad as Gamepad;
 
                 if (Gamepad is Gamepad gamepad)
                 {
