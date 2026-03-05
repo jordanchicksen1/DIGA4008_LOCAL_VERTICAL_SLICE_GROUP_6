@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
             EndGame();
         }
 
-        if(vignette.intensity.value > 0.4f) 
+        if(vignette.intensity.value > 0.3f) 
         {
             darker = false;
         }

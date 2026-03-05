@@ -37,7 +37,7 @@ public class PlayerInteraction : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         //MusicManager = GetComponent<MusicManager>();
         MusicManager = FindAnyObjectByType<MusicManager>();
-        
+        Gamepad = playerInput.devices[0] as Gamepad;
     }
     public void OnInteract(InputAction.CallbackContext context)
     {
@@ -144,7 +144,7 @@ public class PlayerInteraction : MonoBehaviour
                 //Holding = true;
 
                 //Maybe make rumble more intense
-                Gamepad = Gamepad.current;
+                //Gamepad = Gamepad.current;
 
                 if (Gamepad is Gamepad gamepad)
                 {
@@ -152,21 +152,21 @@ public class PlayerInteraction : MonoBehaviour
 
                     if (gamepad is DualShockGamepad)
                     {
-                        Debug.Log(gamepad.displayName);
+                        //Debug.Log(gamepad.displayName);
                         //gamepad.SetMotorSpeeds(0.5f, 0.5f);
                         StartCoroutine(HeavyDualShockRumble());
                     }
 
                     if (gamepad is DualSenseGamepad)
                     {
-                        Debug.Log(gamepad.displayName);
+                        //Debug.Log(gamepad.displayName);
                         //gamepad.SetMotorSpeeds(0.4f, 0.7f);
                         StartCoroutine(HeavyDualSenseRumble());
                     }
 
                     if (gamepad is XInputController)
                     {
-                        Debug.Log(gamepad.displayName);
+                        //Debug.Log(gamepad.displayName);
                         //gamepad.SetMotorSpeeds(0.3f, 0.7f);
                         StartCoroutine(HeavyXboxRumble());
                     }
@@ -187,7 +187,7 @@ public class PlayerInteraction : MonoBehaviour
                 //Debug.Log("hold");
 
 
-                Gamepad = Gamepad.current;
+                //Gamepad = Gamepad.current;
                 //var gamepad = Gamepad as Gamepad;
 
                 if (Gamepad is Gamepad gamepad)
@@ -196,21 +196,21 @@ public class PlayerInteraction : MonoBehaviour
 
                     if (gamepad is DualShockGamepad)
                     {
-                        Debug.Log(gamepad.displayName);
+                        //Debug.Log(gamepad.displayName);
                         //gamepad.SetMotorSpeeds(0.5f, 0.5f);
                         StartCoroutine(DualShockRumble());
                     }
 
                     if (gamepad is DualSenseGamepad)
                     {
-                        Debug.Log(gamepad.displayName);
+                        //Debug.Log(gamepad.displayName);
                         //gamepad.SetMotorSpeeds(0.4f, 0.7f);
                         StartCoroutine(DualSenseRumble());
                     }
 
                     if (gamepad is XInputController)
                     {
-                        Debug.Log(gamepad.displayName);
+                        //Debug.Log(gamepad.displayName);
                         //gamepad.SetMotorSpeeds(0.3f, 0.7f);
                         StartCoroutine(XboxRumble());
                     }
