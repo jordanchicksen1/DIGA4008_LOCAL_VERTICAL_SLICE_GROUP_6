@@ -2066,6 +2066,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: beb643ea9f5c3de42b8153197a273038, type: 2}
+    - target: {fileID: 2551391950044223212, guid: a979ad5c67455404f82d8eacb75aabee, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 231c41d67d8b0cf4a9c15be7fe0b112d, type: 2}
     - target: {fileID: 5183458566787627116, guid: a979ad5c67455404f82d8eacb75aabee, type: 3}
       propertyPath: m_LocalScale.x
       value: 3
@@ -2264,7 +2268,7 @@ PrefabInstance:
       objectReference: {fileID: 826113203}
     - target: {fileID: 4384175662192393552, guid: 0f00d913bf551eb4da264228cf8674ee, type: 3}
       propertyPath: matchTime
-      value: 60
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 4384175662192393552, guid: 0f00d913bf551eb4da264228cf8674ee, type: 3}
       propertyPath: DirectLight
