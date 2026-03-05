@@ -267,7 +267,7 @@ public class PlayerInteraction : MonoBehaviour
 
    public IEnumerator DualShockRumble() 
     {
-        Gamepad = Gamepad.current;
+        //Gamepad = Gamepad.current;
         Debug.Log(Gamepad.displayName);
         Gamepad.SetMotorSpeeds(0.5f, 0.5f);
         yield return new WaitForSeconds(0.5f);
@@ -276,7 +276,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public IEnumerator DualSenseRumble()
     {
-        Gamepad = Gamepad.current;
+        //Gamepad = Gamepad.current;
         Debug.Log(Gamepad.displayName);
         Gamepad.SetMotorSpeeds(0.3f, 0.3f);
         yield return new WaitForSeconds(0.5f);
@@ -285,7 +285,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public IEnumerator XboxRumble()
     {
-        Gamepad = Gamepad.current;
+        //Gamepad = Gamepad.current;
         Debug.Log(Gamepad.displayName);
         Gamepad.SetMotorSpeeds(0.6f, 0.6f);
         yield return new WaitForSeconds(0.5f);
@@ -294,7 +294,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public IEnumerator HeavyDualShockRumble()
     {
-        Gamepad = Gamepad.current;
+        //Gamepad = Gamepad.current;
         Debug.Log(Gamepad.displayName);
         Gamepad.SetMotorSpeeds(0.6f, 0.6f);
         yield return new WaitForSeconds(0.5f);
@@ -303,7 +303,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public IEnumerator HeavyDualSenseRumble()
     {
-        Gamepad = Gamepad.current;
+        //Gamepad = Gamepad.current;
         Debug.Log(Gamepad.displayName);
         Gamepad.SetMotorSpeeds(0.4f, 0.4f);
         yield return new WaitForSeconds(0.5f);
@@ -312,7 +312,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public IEnumerator HeavyXboxRumble()
     {
-        Gamepad = Gamepad.current;
+        //Gamepad = Gamepad.current;
         Debug.Log(Gamepad.displayName);
         Gamepad.SetMotorSpeeds(0.7f, 0.7f);
         yield return new WaitForSeconds(0.5f);
