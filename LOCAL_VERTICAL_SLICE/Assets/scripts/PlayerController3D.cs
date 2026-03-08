@@ -113,7 +113,7 @@ public class PlayerController3D : MonoBehaviour
         {
                 animator.SetBool("Walk", false);
         }
-
+/*
         if (PlayerInteraction.Holding == true) 
         {
             Debug.Log("hold");
@@ -124,7 +124,7 @@ public class PlayerController3D : MonoBehaviour
         {
             Debug.Log("not hold");
             animator.SetBool("HoldWalk", false);
-        }
+        }*/
 
 
 
