@@ -19,6 +19,10 @@ public class PlayerController3D : MonoBehaviour
     public float groundRadius = 0.3f;
     public LayerMask groundLayer;
 
+    [Header("Anim")]
+    public Animator animator;
+    public PlayerInteraction PlayerInteraction;
+
     Rigidbody rb;
     Vector2 moveInput;
     bool jumpQueued;
@@ -54,9 +58,11 @@ public class PlayerController3D : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        Debug.Log("Jump pressed");
+        
         if (context.performed)
             jumpQueued = true;
+            Debug.Log("Jump pressed");
+        //animator.SetBool("Jump", true);
     }
 
     public void OnSprint(InputAction.CallbackContext context)
@@ -88,6 +94,40 @@ public class PlayerController3D : MonoBehaviour
             batteryPercent = playerLight.GetLightPercent();
         }
 
+        if(moveInput.y > 0 || moveInput.x > 0 || moveInput.y < 0 || moveInput.x < 0) 
+        {
+            //Debug.Log("moving");
+            animator.SetBool("Walk", true); 
+
+           
+        }
+
+        /*if (moveInput.y > 0 || moveInput.x > 0 || moveInput.y < 0 || moveInput.x < 0 && PlayerInteraction.Holding == true) 
+        {
+            Debug.Log("Hold and Walk");
+            //animator.SetBool("Walk", false);
+            animator.SetBool("HoldWalk", true);
+        }*/
+
+            if (moveInput.y == 0 && moveInput.x == 0 ) 
+        {
+                animator.SetBool("Walk", false);
+        }
+
+        if (PlayerInteraction.Holding == true) 
+        {
+            Debug.Log("hold");
+            animator.SetBool("HoldWalk", true);
+        }
+
+        if (PlayerInteraction.Holding == false)
+        {
+            Debug.Log("not hold");
+            animator.SetBool("HoldWalk", false);
+        }
+
+
+
         // Speed scales from 10% ? 100%
         float speedMultiplier = Mathf.Lerp(0.25f, 1f, batteryPercent);
 
@@ -100,6 +140,12 @@ public class PlayerController3D : MonoBehaviour
 
             Quaternion targetRot = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.fixedDeltaTime);
+            animator.SetBool("Run", true);
+        }
+
+        if(direction.magnitude < 0.1f) 
+        {
+            animator.SetBool("Run", false);
         }
     }
 
@@ -108,16 +154,22 @@ public class PlayerController3D : MonoBehaviour
         //if the player can jump, then shoot them in the air
         if (jumpQueued && IsGrounded() && !IsCarryingHeavy())
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); 
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            //animator.SetBool("Jump", false);
         }
 
         jumpQueued = false;
+
+      
     }
 
     //ground check
     bool IsGrounded()
     {
+        //animator.SetBool("Jump", true);
+        //Debug.Log("Grounded");
         return Physics.CheckSphere(groundCheck.position, groundRadius, groundLayer);
+        
     }
 
     void OnCollisionEnter(Collision collision)

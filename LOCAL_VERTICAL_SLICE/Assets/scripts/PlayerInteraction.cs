@@ -27,6 +27,7 @@ public class PlayerInteraction : MonoBehaviour
     private Gamepad Gamepad;
     public bool Rumble;
     public float timz;
+    public PlayerController3D controller;
 
 
     
@@ -47,38 +48,6 @@ public class PlayerInteraction : MonoBehaviour
             if (held == null)
             {
                 TryPickup();
-                //Debug.Log("Pickup");
-
-                //maybe need to use some coruitines 
-                /*var device = context.control.device;
-                
-                if(device is Gamepad gamepad) 
-                {
-                    Gamepad = gamepad;  
-
-                        if (gamepad is DualShockGamepad)
-                        {
-                            Debug.Log(gamepad.displayName);
-                            //gamepad.SetMotorSpeeds(0.5f, 0.5f);
-                            StartCoroutine(DualShockRumble());
-                        }
-
-                        if (gamepad is DualSenseGamepad)
-                        {
-                            Debug.Log(gamepad.displayName);
-                            //gamepad.SetMotorSpeeds(0.4f, 0.7f);
-                            StartCoroutine(DualSenseRumble());
-                        }
-
-                        if (gamepad is XInputController)
-                        {
-                            Debug.Log(gamepad.displayName);
-                            //gamepad.SetMotorSpeeds(0.3f, 0.7f);
-                            StartCoroutine(XboxRumble());
-                        }
-                }*/
-
-              
             }
         }
 
@@ -90,7 +59,7 @@ public class PlayerInteraction : MonoBehaviour
                 held.Drop();
                 held = null;
                 //Debug.Log("Drop");
-                //Holding = false;
+                Holding = false;
                 Gamepad.SetMotorSpeeds(0.0f, 0.0f);
                 //Rumble = false;
                 //timz = 0;
@@ -125,6 +94,8 @@ public class PlayerInteraction : MonoBehaviour
             Vector3 dir = transform.forward + Vector3.up * 0.5f;
             held.Throw(dir.normalized, throwForce);
             held = null;
+            Holding = false;
+            //controller.animator.SetBool("Throw", true);
         }
     }
 
@@ -141,7 +112,7 @@ public class PlayerInteraction : MonoBehaviour
             {
                 heavy.AddHolder(this);
                 heavyHeld = heavy;
-                //Holding = true;
+                Holding = true;
 
                 //Maybe make rumble more intense
                 //Gamepad = Gamepad.current;
@@ -181,7 +152,7 @@ public class PlayerInteraction : MonoBehaviour
             {
               
                     pullingObject = obj;
-                //Holding = true ;
+                Holding = true ;
                 MusicManager.SFX.PlayOneShot(MusicManager.Electricity);
                 //MusicManager.GetComponent<MusicManager>().SFX.PlayOneShot(MusicManager.Electricity);
                 //Debug.Log("hold");
