@@ -87,7 +87,7 @@ Material:
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _Speed: 100
+    - _Speed: 0
     - _SrcBlend: 1
     - _Surface: 0
     - _WorkflowMode: 1
@@ -99,3 +99,4 @@ Material:
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _col: {r: 0, g: 0.9413085, b: 1, a: 0.49019608}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
