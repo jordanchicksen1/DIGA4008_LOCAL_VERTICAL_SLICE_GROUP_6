@@ -3,7 +3,7 @@ using UnityEngine;
 public class BatterySpawner : MonoBehaviour
 {
     public GameObject batteryPrefab;
-    public float respawnTime = 30f;
+    public float respawnTime = 15f;
 
     GameObject currentBattery;
 
@@ -22,7 +22,7 @@ public class BatterySpawner : MonoBehaviour
             if (respawnTime <= 0)
             {
                 SpawnBattery();
-                respawnTime = 30f;
+                respawnTime = 15f;
             }
         }
     }

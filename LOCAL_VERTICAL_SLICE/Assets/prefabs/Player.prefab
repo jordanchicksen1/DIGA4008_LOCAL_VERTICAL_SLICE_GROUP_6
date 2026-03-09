@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 517756404923769202}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -275,6 +275,14 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ab904286-b274-4d01-b190-6070c7d079ac
     m_ActionName: 'Player/Throw[/DualShock4GamepadHID/rightShoulder,/XInputControllerWindows/rightShoulder]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5270441b-d1ab-44e6-b3b2-0cf667cfbacb
+    m_ActionName: 'UI/Navigate[/DualShock4GamepadHID/leftStick,/XInputControllerWindows/leftStick,/DualShock4GamepadHID/dpad/up,/XInputControllerWindows/dpad/up,/DualShock4GamepadHID/dpad/down,/XInputControllerWindows/dpad/down,/DualShock4GamepadHID/dpad/left,/XInputControllerWindows/dpad/left,/DualShock4GamepadHID/dpad/right,/XInputControllerWindows/dpad/right]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: fbabc2da-c222-4980-8f7f-872b98fba683
+    m_ActionName: 'UI/Submit[/DualShock4GamepadHID/buttonSouth,/XInputControllerWindows/buttonSouth]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

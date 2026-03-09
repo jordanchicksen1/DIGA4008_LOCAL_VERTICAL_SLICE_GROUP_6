@@ -21,8 +21,16 @@ public class TitleScreenManager : MonoBehaviour
         Time.timeScale = 1f;
 
         ShowScreen(0);
+
+        StartCoroutine(ShowTitleAfterDelay());
     }
 
+    IEnumerator ShowTitleAfterDelay()
+    {
+        yield return new WaitForSeconds(6f);
+
+        ShowScreen(1);
+    }
     void ShowScreen(int index)
     {
         Debug.Log("Selecting button for screen: " + index);
@@ -60,7 +68,7 @@ public class TitleScreenManager : MonoBehaviour
 
     IEnumerator TutorialSequence()
     {
-        for (int i = 1; i <= 5; i++)
+        for (int i = 1; i < screens.Length; i++)
         {
             ShowScreen(i);
             yield return new WaitForSeconds(autoScreenTime);

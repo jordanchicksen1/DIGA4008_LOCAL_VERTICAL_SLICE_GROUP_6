@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BatterySpawner
   batteryPrefab: {fileID: 8021295465016163120, guid: c8a6b6645e74b2d45a8fc6cf6a9f1f0c, type: 3}
-  respawnTime: 30
+  respawnTime: 15
