@@ -9,6 +9,7 @@ public class BatteryPickup : MonoBehaviour
         PlayerLight light = other.GetComponent<PlayerLight>();
         if (light != null)
         {
+            //recharges player light
             light.AddLight(rechargeAmount);
             Destroy(gameObject);
         }

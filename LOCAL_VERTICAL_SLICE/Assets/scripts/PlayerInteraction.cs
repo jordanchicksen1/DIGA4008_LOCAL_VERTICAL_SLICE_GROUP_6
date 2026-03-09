@@ -36,9 +36,10 @@ public class PlayerInteraction : MonoBehaviour
     void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
-        //MusicManager = GetComponent<MusicManager>();
-        MusicManager = FindAnyObjectByType<MusicManager>();
+        //MusicManager = FindAnyObjectByType<MusicManager>();
         Gamepad = playerInput.devices[0] as Gamepad;
+
+        controller = GetComponent<PlayerController3D>();
     }
     public void OnInteract(InputAction.CallbackContext context)
     {
@@ -104,6 +105,9 @@ public class PlayerInteraction : MonoBehaviour
 
     void TryPickup()
     {
+        if (!GameManager.Instance.gameStarted)
+            return;
+
         Collider[] hits = Physics.OverlapSphere(transform.position, pickupRange);
 
         foreach (var hit in hits)

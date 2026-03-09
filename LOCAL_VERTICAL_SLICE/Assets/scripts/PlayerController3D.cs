@@ -20,8 +20,12 @@ public class PlayerController3D : MonoBehaviour
     public LayerMask groundLayer;
 
     [Header("Anim")]
-    public Animator animator;
+    Animator animator;
     public PlayerInteraction PlayerInteraction;
+
+    [Header("Player Models")]
+    public GameObject player1Model;
+    public GameObject player2Model;
 
     Rigidbody rb;
     Vector2 moveInput;
@@ -37,12 +41,29 @@ public class PlayerController3D : MonoBehaviour
         cam = Camera.main;
         currentSpeed = moveSpeed;
         playerLight = GetComponent<PlayerLight>();
+
+        PlayerInput input = GetComponent<PlayerInput>();
+
+        if (input.playerIndex == 0)
+        {
+            player1Model.SetActive(true);
+            player2Model.SetActive(false);
+            animator = player1Model.GetComponent<Animator>();
+        }
+        else
+        {
+            player1Model.SetActive(false);
+            player2Model.SetActive(true);
+            animator = player2Model.GetComponent<Animator>();
+        }
     }
 
     //in fixed update for better physics
     void FixedUpdate()
 {
-    if (IsCarryingHeavy())
+        if (!GameManager.Instance.gameStarted)
+            return;
+        if (IsCarryingHeavy())
         return;
 
     HandleMovement();
@@ -74,6 +95,8 @@ public class PlayerController3D : MonoBehaviour
     //actual methods
     void HandleMovement()
     {
+        Debug.Log(animator.name);
+
         //declared so that movement and player direction is dependant on camera view
         Vector3 forward = cam.transform.forward; 
         Vector3 right = cam.transform.right;
@@ -94,13 +117,9 @@ public class PlayerController3D : MonoBehaviour
             batteryPercent = playerLight.GetLightPercent();
         }
 
-        if(moveInput.y > 0 || moveInput.x > 0 || moveInput.y < 0 || moveInput.x < 0) 
-        {
-            //Debug.Log("moving");
-            animator.SetBool("Walk", true); 
+        bool isMoving = direction.magnitude > 0.1f;
 
-           
-        }
+        animator.SetBool("Walk", isMoving);
 
         /*if (moveInput.y > 0 || moveInput.x > 0 || moveInput.y < 0 || moveInput.x < 0 && PlayerInteraction.Holding == true) 
         {
@@ -109,10 +128,7 @@ public class PlayerController3D : MonoBehaviour
             animator.SetBool("HoldWalk", true);
         }*/
 
-            if (moveInput.y == 0 && moveInput.x == 0 ) 
-        {
-                animator.SetBool("Walk", false);
-        }
+        
 /*
         if (PlayerInteraction.Holding == true) 
         {
@@ -140,13 +156,10 @@ public class PlayerController3D : MonoBehaviour
 
             Quaternion targetRot = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.fixedDeltaTime);
-            animator.SetBool("Run", true);
+            animator.SetBool("Run", sprintHeld && isMoving);
         }
 
-        if(direction.magnitude < 0.1f) 
-        {
-            animator.SetBool("Run", false);
-        }
+       
     }
 
     void HandleJump()

@@ -8,6 +8,7 @@ public class LightUI : MonoBehaviour
 
     void Update()
     {
+        //update image fill amount to the light percentage
         fillImage.fillAmount = playerLight.GetLightPercent();
     }
 }

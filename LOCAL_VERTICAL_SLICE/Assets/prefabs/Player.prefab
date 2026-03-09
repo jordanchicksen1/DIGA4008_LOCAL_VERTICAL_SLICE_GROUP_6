@@ -304,6 +304,8 @@ MonoBehaviour:
     m_Bits: 64
   animator: {fileID: 7619997060225888262}
   PlayerInteraction: {fileID: 449295003540747231}
+  player1Model: {fileID: 1018278831136569205}
+  player2Model: {fileID: 3114513532612894844}
 --- !u!114 &449295003540747231
 MonoBehaviour:
   m_ObjectHideFlags: 0
