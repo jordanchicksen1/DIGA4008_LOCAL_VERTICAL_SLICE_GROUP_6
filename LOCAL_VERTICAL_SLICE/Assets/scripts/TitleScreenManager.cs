@@ -56,7 +56,7 @@ public class TitleScreenManager : MonoBehaviour
     {
         EventSystem.current.SetSelectedGameObject(null);
 
-        // wait a tiny moment so the input system resets the submit state
+        // wait so the input system resets the submit state
         yield return new WaitForSeconds(0.1f);
 
         button.Select();
