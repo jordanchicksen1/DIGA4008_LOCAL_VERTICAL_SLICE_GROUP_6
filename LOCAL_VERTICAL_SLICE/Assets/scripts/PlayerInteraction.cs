@@ -36,7 +36,7 @@ public class PlayerInteraction : MonoBehaviour
     void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
-        //MusicManager = FindAnyObjectByType<MusicManager>();
+        MusicManager = FindAnyObjectByType<MusicManager>();
         Gamepad = playerInput.devices[0] as Gamepad;
 
         controller = GetComponent<PlayerController3D>();
