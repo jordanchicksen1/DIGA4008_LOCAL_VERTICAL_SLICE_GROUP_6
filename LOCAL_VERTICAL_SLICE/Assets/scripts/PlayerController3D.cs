@@ -79,11 +79,14 @@ public class PlayerController3D : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        
-        if (context.performed)
+
+        if (context.performed) {
+            animator.SetBool("Jump", true);
             jumpQueued = true;
-            Debug.Log("Jump pressed");
-        //animator.SetBool("Jump", true);
+        Debug.Log("Jump pressed");
+           
+        }
+        
     }
 
     public void OnSprint(InputAction.CallbackContext context)
@@ -95,7 +98,7 @@ public class PlayerController3D : MonoBehaviour
     //actual methods
     void HandleMovement()
     {
-        Debug.Log(animator.name);
+        
 
         //declared so that movement and player direction is dependant on camera view
         Vector3 forward = cam.transform.forward; 
@@ -167,19 +170,23 @@ public class PlayerController3D : MonoBehaviour
         //if the player can jump, then shoot them in the air
         if (jumpQueued && IsGrounded() && !IsCarryingHeavy())
         {
+            animator.SetBool("Jump", true);
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            //animator.SetBool("Jump", false);
+            
+            animator.SetBool("Jump", false);
+
         }
 
         jumpQueued = false;
+       
 
-      
+
     }
 
     //ground check
     bool IsGrounded()
     {
-        //animator.SetBool("Jump", true);
+        animator.SetBool("Jump", false);
         //Debug.Log("Grounded");
         return Physics.CheckSphere(groundCheck.position, groundRadius, groundLayer);
         
@@ -199,8 +206,10 @@ public class PlayerController3D : MonoBehaviour
     }
 
     public bool IsCarryingHeavy()
-    {
+    { 
+        //animator.SetBool("HoldWalk", true);
         PlayerInteraction interaction = GetComponent<PlayerInteraction>();
         return interaction != null && interaction.IsHoldingHeavy();
+       
     }
 }

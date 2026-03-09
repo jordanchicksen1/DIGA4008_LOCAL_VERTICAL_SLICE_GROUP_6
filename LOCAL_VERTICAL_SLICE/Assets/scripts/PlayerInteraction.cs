@@ -29,8 +29,9 @@ public class PlayerInteraction : MonoBehaviour
     public float timz;
     public PlayerController3D controller;
 
+    [Header("Anim")]
+    Animator animator;
 
-    
     public bool IsCarryingHeavy => heavyHeld != null && heavyHeld.IsFullyHeld;
 
     void Awake()
@@ -38,7 +39,7 @@ public class PlayerInteraction : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         MusicManager = FindAnyObjectByType<MusicManager>();
         Gamepad = playerInput.devices[0] as Gamepad;
-
+        animator = GetComponentInChildren<Animator>();
         controller = GetComponent<PlayerController3D>();
     }
     public void OnInteract(InputAction.CallbackContext context)
@@ -46,8 +47,10 @@ public class PlayerInteraction : MonoBehaviour
         //if you aren't holding anything, will try to pick up what is in front of you (accesses HoldableObject)
         if (context.started)
         {
+           
             if (held == null)
             {
+                animator.SetBool("HoldWalk", true);
                 TryPickup();
             }
         }
@@ -57,6 +60,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (held != null)
             {
+                animator.SetBool("HoldWalk", false);
                 held.Drop();
                 held = null;
                 //Debug.Log("Drop");
@@ -84,6 +88,8 @@ public class PlayerInteraction : MonoBehaviour
     {
         //aiming mode turned on if you hold in button
         aiming = context.ReadValueAsButton();
+        animator.SetBool("Throw", true);
+        animator.SetBool("HoldWalk", false);
         Debug.Log("Aim: " + aiming);
     }
 
@@ -92,12 +98,15 @@ public class PlayerInteraction : MonoBehaviour
         //if you are holding the aiming button and then press the shoot button, it will throw the object (accesses HoldableObject)
         if (context.performed && held != null && aiming)
         {
+            
             Debug.Log("Throw pressed");
             Vector3 dir = transform.forward + Vector3.up * 0.5f;
             held.Throw(dir.normalized, throwForce);
             held = null;
             Holding = false;
-           
+            animator.SetBool("Thrown", true);
+            animator.SetBool("Throw", false);
+
             //controller.animator.SetBool("Throw", true);
         }
     }

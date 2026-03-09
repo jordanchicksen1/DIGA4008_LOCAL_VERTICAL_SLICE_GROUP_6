@@ -35,7 +35,7 @@ ModelImporter:
       takeName: Armature.002|Hold Throw
       internalID: 1309604156267958558
       firstFrame: 0
-      lastFrame: 111
+      lastFrame: 68
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -121,7 +121,7 @@ ModelImporter:
       name: Armature.002|Jump
       takeName: Armature.002|Jump
       internalID: -7843072957423894538
-      firstFrame: 0
+      firstFrame: 12
       lastFrame: 48
       wrapMode: 0
       orientationOffsetY: 0
@@ -217,7 +217,7 @@ ModelImporter:
       loop: 0
       hasAdditiveReferencePose: 0
       loopTime: 1
-      loopBlend: 0
+      loopBlend: 1
       loopBlendOrientation: 0
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
