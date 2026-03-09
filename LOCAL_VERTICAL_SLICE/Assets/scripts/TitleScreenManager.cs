@@ -54,9 +54,10 @@ public class TitleScreenManager : MonoBehaviour
 
     IEnumerator SelectButton(Button button)
     {
-        yield return new WaitForEndOfFrame(); // wait until UI fully updates
-
         EventSystem.current.SetSelectedGameObject(null);
+
+        // wait a tiny moment so the input system resets the submit state
+        yield return new WaitForSeconds(0.1f);
 
         button.Select();
     }
@@ -68,7 +69,7 @@ public class TitleScreenManager : MonoBehaviour
 
     IEnumerator TutorialSequence()
     {
-        for (int i = 1; i < screens.Length; i++)
+        for (int i = 2; i < screens.Length; i++)
         {
             ShowScreen(i);
             yield return new WaitForSeconds(autoScreenTime);
